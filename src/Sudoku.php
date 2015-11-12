@@ -131,7 +131,7 @@ class Sudoku
                     continue;
                 }
 
-                if(!in_array($cell, [1,2,3,4,5,6,7,8,9])) {
+                if (!in_array($cell, [1, 2, 3, 4, 5, 6, 7, 8, 9])) {
                     return false;
                 }
 
@@ -183,7 +183,12 @@ class Sudoku
      */
     public function generatePuzzle($cellCount = 15)
     {
-        if(!is_integer($cellCount) || $cellCount < 1 || $cellCount > 80) {
+        if ($cellCount === 0) {
+            $this->puzzle = $this->generateEmptyPuzzle();
+            return $this->puzzle;
+        }
+
+        if (!is_integer($cellCount) || $cellCount < 0 || $cellCount > 80) {
             return false;
         }
 
@@ -191,7 +196,7 @@ class Sudoku
         $cells = array_rand(range(0, 80), $cellCount);
         $i = 0;
 
-        if(is_integer($cells)) {
+        if (is_integer($cells)) {
             $cells = [$cells];
         }
 

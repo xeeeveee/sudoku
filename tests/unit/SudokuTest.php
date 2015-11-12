@@ -152,7 +152,7 @@ class SudokuTest extends \Codeception\TestCase\Test
     {
         $sudoku = new Sudoku();
 
-        $this->assertNotEquals($sudoku->generatePuzzle(1), false);
+        $this->assertNotEquals($sudoku->generatePuzzle(0), false);
         $this->assertNotEquals($sudoku->getPuzzle(), [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
