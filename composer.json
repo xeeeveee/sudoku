@@ -1,0 +1,33 @@
+{
+  "name": "xeeeveee/sudoku",
+  "description": "PHP sudoku logic library - generation and solve sudoku puzzles",
+  "type" : "library",
+  "keywords": [
+      "Sudoku",
+      "Generation",
+      "Generator",
+      "Solving",
+      "Solver"
+  ],
+  "homepage": "https://github.com/xeeeveee/sudoku",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jack Neary",
+      "email": "xeeeveee@gmail.com"
+    }
+  ],
+  "require-dev": {
+    "codeception/codeception": "*"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/"
+    ]
+  }
+}

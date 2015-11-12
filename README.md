@@ -1,0 +1,114 @@
+# PHP Sudoku Generator & Solver
+
+A PHP Sudoku generate and solver implemented via a bruteforce backtracking algorithm.
+
+## Installation
+
+Install via composer with `php composer require xeeeveee/sudoku:*`
+
+## Usage
+
+### TL;DR full examples
+
+```php
+    // Generate a new puzzle
+    $sudoku = new Xeeeveee\Sudoku();
+    $sudoku->generatePuzzle();
+    $puzzle = $sudoku->getPuzzle();
+
+    // Solve a pre-determined puzzle
+    $sudoku = new Xeeeveee\Sudoku($puzzle);
+    $sudoku->solve();
+    $solution = $sudoku->getSolution();
+
+    // Check a grid is solvable
+    $sudoku = new Xeeeveee\Sudoku();
+    $sudoku->setPuzzle($puzzle);
+    $solvable = $sudoku->isSolvable();
+
+    // Check a grid is solved
+    $sudoku = new Xeeeveee\Sudoku();
+    $sudoku->setPuzzle($puzzle);
+    $sudoku->solve($puzzle);
+    $solved = $sudoku->isSolved();
+```
+
+### Generator
+
+Once an instance has been initialized you can generate a new sudoku puzzle by calling the `generatePuzzle()` method as below:
+
+```php
+    $sudoku = new Xeeeveee\Sudoku();
+    $sudoku->generatePuzzle();
+```
+
+You can also specify the difficulty of the puzzle to generate by passing an integer between 0 and 81. This represents how many of the cells will be pre-populated in the puzzle. For example, the below snippet should generate a puzzle with 25 of the cells pre-populated.
+
+```php
+    $sudoku = new Xeeeveee\Sudoku();
+    $sudoku->generatePuzzle(25);
+```
+
+### Solver
+
+Solving a puzzle is as simple as calling the `solve()` method on the object, which will return either `true` or `false` depending on the outcome, see below for example:
+
+```php
+    $sudoku = new Xeeeveee\Sudoku();
+    $sudoku->generatePuzzle(25);
+    $sudoku->solve();
+```
+
+You can use the `isSolved()` method to check if the object contains a solved solution, and use the `getSolution` method to retrieve the array, a more complete example might look like the below:
+
+```php
+    $sudoku = new Xeeeveee\Sudoku();
+    $sudoku->generatePuzzle(25);
+
+    if($sudoku->isSolvable() && $sudoku->isSolved() !== true) {
+        $sudoku->solve();
+    }
+
+    $solution = $sudoku->getSolution();
+```
+
+### Puzzle & solution format
+
+The puzzle and solution is represented as 3 dimensional array, effectively 9 rows with 9 columns where blank values are represented as `0`. The definition for a complete empty puzzle or solution would look like the below:
+
+```php
+    $puzzle = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
+```
+
+### Available methods
+
+**array** `getPuzzle()`
+Returns the puzzle array
+
+**boolean** `setPuzzle(array $puzzle = [])`
+Sets the puzzle array - If the `$puzzle` parameter is omitted or an invalid array structure is pass, a empty grid will be generated and it will return false
+
+**array** `getSolution()`
+Returns the solution array
+
+**boolean** `solve()`
+Attempts to solve the puzzle
+
+**boolean** `isSolved()`
+Returns true is a valid solution to the puzzle has been calculated
+
+**boolean** `isSolvable()`
+Returns true if the puzzle is solvable - This is significantly quicker then actually solving the puzzle
+
+**array** `generatePuzzle($cellCount = 15)`
+Generates a new puzzle array, the `$cellCount` parameter specifies how many cells will be pre-populated, effectively manipulating the difficulty. 0 - 81 are valid values for `$cellCount` if any other value is supplied, the default of 15 will be used. Returns the puzzle array on completion
