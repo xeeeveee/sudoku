@@ -18,7 +18,8 @@
     }
   ],
   "require-dev": {
-    "codeception/codeception": "*"
+    "codeception/codeception": "*",
+    "guzzlehttp/guzzle": "5.3.*"
   },
   "autoload": {
     "classmap": [
