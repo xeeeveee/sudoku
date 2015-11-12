@@ -1,6 +1,6 @@
 {
   "name": "xeeeveee/sudoku",
-  "description": "PHP sudoku logic library - generation and solve sudoku puzzles",
+  "description": "PHP sudoku logic library - Generate and solve sudoku puzzles",
   "type" : "library",
   "keywords": [
       "Sudoku",
