@@ -1,3 +1,4 @@
 .idea
 vendor
+tests/_support/_generated
 tests/_output/*
