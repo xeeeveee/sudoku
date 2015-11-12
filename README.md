@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/xeeeveee/sudoku.svg?branch=master)](https://travis-ci.org/xeeeveee/sudoku)
+
 # PHP Sudoku Generator & Solver
 
 A PHP Sudoku generate and solver implemented via a bruteforce backtracking algorithm.
