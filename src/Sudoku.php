@@ -183,34 +183,33 @@ class Sudoku
      */
     public function generatePuzzle($cellCount = 15)
     {
-        if ($cellCount === 0) {
-            $this->puzzle = $this->generateEmptyPuzzle();
-            return $this->puzzle;
-        }
-
         if (!is_integer($cellCount) || $cellCount < 0 || $cellCount > 80) {
             return false;
         }
 
-        $this->puzzle = $this->calculateSolution($this->generateEmptyPuzzle());
-        $cells = array_rand(range(0, 80), $cellCount);
-        $i = 0;
+        if ($cellCount === 0) {
+            $this->puzzle = $this->generateEmptyPuzzle();
+        } else {
+            $this->puzzle = $this->calculateSolution($this->generateEmptyPuzzle());
 
-        if (is_integer($cells)) {
-            $cells = [$cells];
-        }
+            $cells = array_rand(range(0, 80), $cellCount);
+            $i = 0;
 
-        foreach ($this->puzzle as &$row) {
-            foreach ($row as &$cell) {
-                if (!in_array($i++, $cells)) {
-                    $cell = null;
+            if (is_integer($cells)) {
+                $cells = [$cells];
+            }
+
+            foreach ($this->puzzle as &$row) {
+                foreach ($row as &$cell) {
+                    if (!in_array($i++, $cells)) {
+                        $cell = null;
+                    }
                 }
             }
         }
 
         $this->isSolved = false;
-
-        return $this->puzzle;
+        return true;
     }
 
     /**
