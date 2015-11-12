@@ -110,5 +110,5 @@ Returns true is a valid solution to the puzzle has been calculated
 **boolean** `isSolvable()`
 Returns true if the puzzle is solvable - This is significantly quicker then actually solving the puzzle
 
-**array** `generatePuzzle($cellCount = 15)`
+**boolean** `generatePuzzle($cellCount = 15)`
 Generates a new puzzle array, the `$cellCount` parameter specifies how many cells will be pre-populated, effectively manipulating the difficulty. 0 - 81 are valid values for `$cellCount` if any other value is supplied, the default of 15 will be used. Returns the puzzle array on completion
