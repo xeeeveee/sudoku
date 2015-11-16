@@ -1,9 +1,9 @@
 <?php
 
 
-use Xeeeveee\Sudoku\Sudoku;
+use Xeeeveee\Sudoku\Puzzle;
 
-class SudokuTest extends \Codeception\TestCase\Test
+class PuzzleTest extends \Codeception\TestCase\Test
 {
     /**
      * @var \UnitTester
@@ -20,7 +20,7 @@ class SudokuTest extends \Codeception\TestCase\Test
 
     public function testInvalidPuzzlesAreIgnored()
     {
-        $sudoku = new Sudoku();
+        $sudoku = new Puzzle();
 
         $sudoku->setPuzzle([
             [0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -41,7 +41,7 @@ class SudokuTest extends \Codeception\TestCase\Test
 
     public function testRowConstraintsIdentified()
     {
-        $sudoku = new Sudoku();
+        $sudoku = new Puzzle();
 
         $sudoku->setPuzzle([
             [1, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -60,7 +60,7 @@ class SudokuTest extends \Codeception\TestCase\Test
 
     public function testColumnConstraintsIdentified()
     {
-        $sudoku = new Sudoku();
+        $sudoku = new Puzzle();
 
         $sudoku->setPuzzle([
             [1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -79,7 +79,7 @@ class SudokuTest extends \Codeception\TestCase\Test
 
     public function testBoxConstraintsIdentified()
     {
-        $sudoku = new Sudoku();
+        $sudoku = new Puzzle();
 
         $sudoku->setPuzzle([
             [1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -98,7 +98,7 @@ class SudokuTest extends \Codeception\TestCase\Test
 
     public function testInvalidValuesIdentified()
     {
-        $sudoku = new Sudoku();
+        $sudoku = new Puzzle();
 
         $sudoku->setPuzzle([
             [10, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -117,7 +117,7 @@ class SudokuTest extends \Codeception\TestCase\Test
 
     public function testIsSolvedGetsSetAppropriately()
     {
-        $sudoku = new Sudoku();
+        $sudoku = new Puzzle();
 
         $this->assertEquals($sudoku->isSolved(), false);
         $sudoku->solve();
@@ -132,7 +132,7 @@ class SudokuTest extends \Codeception\TestCase\Test
 
     public function testGeneratePuzzleDifficultyMinimumConstraintsIdentified()
     {
-        $sudoku = new Sudoku();
+        $sudoku = new Puzzle();
 
         $this->assertEquals($sudoku->generatePuzzle(0), true);
         $this->assertEquals($sudoku->getPuzzle(), [
@@ -150,7 +150,7 @@ class SudokuTest extends \Codeception\TestCase\Test
 
     public function testGeneratePuzzleDifficultyLowestPossibleValue()
     {
-        $sudoku = new Sudoku();
+        $sudoku = new Puzzle();
 
         $this->assertEquals($sudoku->generatePuzzle(0), true);
         $this->assertEquals($sudoku->getPuzzle(), [
@@ -168,7 +168,7 @@ class SudokuTest extends \Codeception\TestCase\Test
 
     public function testGeneratePuzzleDifficultyMaximumConstraintsIdentified()
     {
-        $sudoku = new Sudoku();
+        $sudoku = new Puzzle();
 
         $this->assertEquals($sudoku->generatePuzzle(81), false);
         $this->assertEquals($sudoku->getPuzzle(), [
@@ -186,7 +186,7 @@ class SudokuTest extends \Codeception\TestCase\Test
 
     public function testGeneratePuzzleDifficultyHighestPossibleValue()
     {
-        $sudoku = new Sudoku();
+        $sudoku = new Puzzle();
 
         $this->assertNotEquals($sudoku->generatePuzzle(80), false);
         $this->assertNotEquals($sudoku->getPuzzle(), [

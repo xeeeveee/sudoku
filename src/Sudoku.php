@@ -4,7 +4,7 @@ namespace Xeeeveee\Sudoku;
 
 // TODO: Add isValidSolution() method to check if a solution would complete the puzzle
 
-class Sudoku
+class Puzzle
 {
     /**
      * Holds the puzzle
