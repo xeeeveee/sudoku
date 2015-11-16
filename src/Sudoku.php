@@ -1,8 +1,11 @@
 <?php
 
-namespace Xeeeveee\Sudoku;
+/*
+ * TODO: Enhance isSolved() to ensure the solution solves the puzzle stored in $this->puzzle and is not just a valid
+ * solution
+ */
 
-// TODO: Add isValidSolution() method to check if a solution would complete the puzzle
+namespace Xeeeveee\Sudoku;
 
 class Puzzle
 {
@@ -21,13 +24,6 @@ class Puzzle
     protected $solution = [];
 
     /**
-     * Holds the solved value
-     *
-     * @var boolean
-     */
-    protected $isSolved = false;
-
-    /**
      * Sets the puzzle on construction
      *
      * @param array $puzzle
@@ -35,6 +31,7 @@ class Puzzle
     public function __construct(array $puzzle = [])
     {
         $this->setPuzzle($puzzle);
+        $this->setSolution($this->generateEmptyPuzzle());
     }
 
     /**
@@ -58,14 +55,14 @@ class Puzzle
      */
     public function setPuzzle(array $puzzle = [])
     {
-        $this->isSolved = false;
-
         if ($this->isValidPuzzleFormat($puzzle)) {
             $this->puzzle = $puzzle;
+            $this->setSolution($this->generateEmptyPuzzle());
 
             return true;
         } else {
             $this->puzzle = $this->generateEmptyPuzzle();
+            $this->setSolution($this->generateEmptyPuzzle());
 
             return false;
         }
@@ -80,11 +77,9 @@ class Puzzle
     {
         if ($this->isSolvable()) {
             $this->solution = $this->calculateSolution($this->puzzle);
-            $this->isSolved = true;
 
             return true;
         } else {
-            $this->isSolved = false;
 
             return false;
         }
@@ -100,6 +95,17 @@ class Puzzle
         return $this->solution;
     }
 
+
+    public function setSolution(array $solution)
+    {
+        if ($this->isValidPuzzleFormat($solution)) {
+            $this->solution = $solution;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Gets tge is solved value
      *
@@ -107,7 +113,7 @@ class Puzzle
      */
     public function isSolved()
     {
-        return $this->isSolved;
+        return $this->checkConstraints($this->solution);
     }
 
     /**
@@ -119,9 +125,22 @@ class Puzzle
      */
     public function isSolvable()
     {
-        foreach ($this->puzzle as $rowIndex => $row) {
+        return $this->checkConstraints($this->puzzle, true);
+    }
 
-            if (!$this->checkForViolations($row)) {
+    /**
+     * Check constraints of a puzzle or solution
+     *
+     * @param array $puzzle
+     * @param bool $allowZeros
+     *
+     * @return bool
+     */
+    protected function checkConstraints(array $puzzle, $allowZeros = false)
+    {
+        foreach ($puzzle as $rowIndex => $row) {
+
+            if (!$this->checkContainerForViolations($row, $allowZeros)) {
                 return false;
             }
 
@@ -155,7 +174,7 @@ class Puzzle
 
         if (isset($columns)) {
             foreach ($columns as $column) {
-                if (!$this->checkForViolations($column)) {
+                if (!$this->checkContainerForViolations($column, $allowZeros)) {
                     return false;
                 }
             }
@@ -163,7 +182,7 @@ class Puzzle
 
         if (isset($boxes)) {
             foreach ($boxes as $box) {
-                if (!$this->checkForViolations($box)) {
+                if (!$this->checkContainerForViolations($box, $allowZeros)) {
                     return false;
                 }
             }
@@ -208,7 +227,8 @@ class Puzzle
             }
         }
 
-        $this->isSolved = false;
+        $this->setSolution($this->generateEmptyPuzzle());
+
         return true;
     }
 
@@ -356,15 +376,20 @@ class Puzzle
     /**
      * Checks an array for violations
      *
-     * A array is deemed to contain violations if it contains any duplicate values once all (int) 0 values have been
-     * removed.
+     * A array is deemed to contain violations if it contains any duplicate values, the inclusion of 0 values can be
+     * specified via the $allowZeros parameter
      *
      * @param array $container
+     * @param bool $allowZeros
      *
      * @return bool
      */
-    protected function checkForViolations(array $container)
+    protected function checkContainerForViolations(array $container, $allowZeros = false)
     {
+        if(!$allowZeros && in_array(0, $container)) {
+            return false;
+        }
+
         if (($keys = array_keys($container, 0)) !== false) {
             foreach ($keys as $key) {
                 unset($container[$key]);
