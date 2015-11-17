@@ -27,16 +27,16 @@ class Puzzle
      * Sets the puzzle on construction
      *
      * @param array $puzzle
+     * @param array $solution
      */
-    public function __construct(array $puzzle = [])
+    public function __construct(array $puzzle = [], array $solution = [])
     {
         $this->setPuzzle($puzzle);
-        $this->setSolution($this->generateEmptyPuzzle());
+        $this->setSolution($solution);
     }
 
     /**
      * Returns the puzzle array
-     *
      * @return array
      */
     public function getPuzzle()
@@ -50,7 +50,6 @@ class Puzzle
      * If an invalid puzzle is supplied, an empty puzzle is generated instead
      *
      * @param array $puzzle
-     *
      * @return bool
      */
     public function setPuzzle(array $puzzle = [])
@@ -58,29 +57,10 @@ class Puzzle
         if ($this->isValidPuzzleFormat($puzzle)) {
             $this->puzzle = $puzzle;
             $this->setSolution($this->generateEmptyPuzzle());
-
             return true;
         } else {
             $this->puzzle = $this->generateEmptyPuzzle();
             $this->setSolution($this->generateEmptyPuzzle());
-
-            return false;
-        }
-    }
-
-    /**
-     * Solves the puzzle
-     *
-     * @return bool
-     */
-    public function solve()
-    {
-        if ($this->isSolvable()) {
-            $this->solution = $this->calculateSolution($this->puzzle);
-
-            return true;
-        } else {
-
             return false;
         }
     }
@@ -95,11 +75,32 @@ class Puzzle
         return $this->solution;
     }
 
-
+    /**
+     * Sets the solution array
+     *
+     * @param array $solution
+     * @return bool
+     */
     public function setSolution(array $solution)
     {
         if ($this->isValidPuzzleFormat($solution)) {
             $this->solution = $solution;
+            return true;
+        } else {
+            $this->setSolution($this->generateEmptyPuzzle());
+            return false;
+        }
+    }
+
+    /**
+     * Solves the puzzle
+     *
+     * @return bool
+     */
+    public function solve()
+    {
+        if ($this->isSolvable()) {
+            $this->solution = $this->calculateSolution($this->puzzle);
             return true;
         } else {
             return false;
@@ -126,6 +127,47 @@ class Puzzle
     public function isSolvable()
     {
         return $this->checkConstraints($this->puzzle, true);
+    }
+
+    /**
+     * Generates a new random puzzle
+     *
+     * Difficulty is specified by the number of cells pre-populated in the puzzle, these are assigned randomly and does
+     * not necessarily guarantee a difficult or easy puzzle
+     *
+     * @param int $cellCount
+     * @return array|bool
+     */
+    public function generatePuzzle($cellCount = 15)
+    {
+        if (!is_integer($cellCount) || $cellCount < 0 || $cellCount > 80) {
+            return false;
+        }
+
+        if ($cellCount === 0) {
+            $this->puzzle = $this->generateEmptyPuzzle();
+        } else {
+            $this->puzzle = $this->calculateSolution($this->generateEmptyPuzzle());
+
+            $cells = array_rand(range(0, 80), $cellCount);
+            $i = 0;
+
+            if (is_integer($cells)) {
+                $cells = [$cells];
+            }
+
+            foreach ($this->puzzle as &$row) {
+                foreach ($row as &$cell) {
+                    if (!in_array($i++, $cells)) {
+                        $cell = null;
+                    }
+                }
+            }
+        }
+
+        $this->setSolution($this->generateEmptyPuzzle());
+
+        return true;
     }
 
     /**
@@ -187,47 +229,6 @@ class Puzzle
                 }
             }
         }
-
-        return true;
-    }
-
-    /**
-     * Generates a new random puzzle
-     *
-     * Difficulty is specified by the number of cells pre-populated in the puzzle, these are assigned randomly and does
-     * not necessarily guarantee a difficult or easy puzzle
-     *
-     * @param int $cellCount
-     * @return array|bool
-     */
-    public function generatePuzzle($cellCount = 15)
-    {
-        if (!is_integer($cellCount) || $cellCount < 0 || $cellCount > 80) {
-            return false;
-        }
-
-        if ($cellCount === 0) {
-            $this->puzzle = $this->generateEmptyPuzzle();
-        } else {
-            $this->puzzle = $this->calculateSolution($this->generateEmptyPuzzle());
-
-            $cells = array_rand(range(0, 80), $cellCount);
-            $i = 0;
-
-            if (is_integer($cells)) {
-                $cells = [$cells];
-            }
-
-            foreach ($this->puzzle as &$row) {
-                foreach ($row as &$cell) {
-                    if (!in_array($i++, $cells)) {
-                        $cell = null;
-                    }
-                }
-            }
-        }
-
-        $this->setSolution($this->generateEmptyPuzzle());
 
         return true;
     }
@@ -386,7 +387,7 @@ class Puzzle
      */
     protected function checkContainerForViolations(array $container, $allowZeros = false)
     {
-        if(!$allowZeros && in_array(0, $container)) {
+        if (!$allowZeros && in_array(0, $container)) {
             return false;
         }
 
