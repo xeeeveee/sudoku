@@ -113,14 +113,14 @@ class Puzzle
      */
     public function isSolved()
     {
-        if(!$this->checkConstraints($this->solution)) {
+        if (!$this->checkConstraints($this->solution)) {
             return false;
         }
 
-        foreach($this->puzzle as $rowIndex => $row) {
-            foreach($row as $columnIndex => $column) {
-                if($column !== 0) {
-                    if($this->puzzle[$rowIndex][$columnIndex] != $this->solution[$rowIndex][$columnIndex]) {
+        foreach ($this->puzzle as $rowIndex => $row) {
+            foreach ($row as $columnIndex => $column) {
+                if ($column !== 0) {
+                    if ($this->puzzle[$rowIndex][$columnIndex] != $this->solution[$rowIndex][$columnIndex]) {
                         return false;
                     }
                 }
