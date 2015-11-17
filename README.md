@@ -19,7 +19,7 @@ Install via composer with `php composer require xeeeveee/sudoku:*`
     $puzzle = $sudoku->getPuzzle();
 
     // Solve a pre-determined puzzle
-    $sudoku = new Xeeeveee\Sudoku\Sudoku($puzzle);
+    $sudoku = new Xeeeveee\Sudoku\Puzzle($puzzle);
     $sudoku->solve();
     $solution = $sudoku->getSolution();
 
