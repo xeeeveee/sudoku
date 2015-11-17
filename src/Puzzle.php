@@ -87,7 +87,6 @@ class Puzzle
             $this->solution = $solution;
             return true;
         } else {
-            $this->setSolution($this->generateEmptyPuzzle());
             return false;
         }
     }
