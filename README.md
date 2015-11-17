@@ -99,7 +99,7 @@ Returns the puzzle array
 
 **boolean** `setPuzzle(array $puzzle = [])`
 Sets the puzzle array - If the `$puzzle` parameter is omitted or an invalid array structure is pass, a empty grid will be generated and false will be returned.
-Note: Setting the puzzle always resets the solution to an empty grid.
+**Note** - Setting the puzzle always resets the solution to an empty grid.
 
 **array** `getSolution()`
 Returns the solution array
@@ -118,4 +118,4 @@ Returns true if the puzzle is solvable - This is significantly quicker then actu
 
 **boolean** `generatePuzzle($cellCount = 15)`
 Generates a new puzzle, the `$cellCount` parameter specifies how many cells will be pre-populated, effectively manipulating the difficulty. 0 - 81 are valid values for `$cellCount` if any other value is supplied false is returned.
-Note: Generating a puzzle always resets the solution to an empty grid.
+**Note** - Generating a puzzle always resets the solution to an empty grid.
