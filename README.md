@@ -14,7 +14,7 @@ Install via composer with `php composer require xeeeveee/sudoku:*`
 
 ```php
     // Generate a new puzzle
-    $sudoku = new Xeeeveee\Sudoku\Sudoku();
+    $sudoku = new Xeeeveee\Sudoku\Puzzle();
     $sudoku->generatePuzzle();
     $puzzle = $sudoku->getPuzzle();
 
@@ -24,12 +24,12 @@ Install via composer with `php composer require xeeeveee/sudoku:*`
     $solution = $sudoku->getSolution();
 
     // Check a grid is solvable
-    $sudoku = new Xeeeveee\Sudoku\Sudoku();
+    $sudoku = new Xeeeveee\Sudoku\Puzzle();
     $sudoku->setPuzzle($puzzle);
     $solvable = $sudoku->isSolvable();
 
     // Check a grid is solved
-    $sudoku = new Xeeeveee\Sudoku\Sudoku();
+    $sudoku = new Xeeeveee\Sudoku\Puzzle();
     $sudoku->setPuzzle($puzzle);
     $sudoku->solve($puzzle);
     $solved = $sudoku->isSolved();
@@ -40,14 +40,14 @@ Install via composer with `php composer require xeeeveee/sudoku:*`
 Once an instance has been initialized you can generate a new sudoku puzzle by calling the `generatePuzzle()` method as below:
 
 ```php
-    $sudoku = new Xeeeveee\Sudoku\Sudoku();
+    $sudoku = new Xeeeveee\Sudoku\Puzzle();
     $sudoku->generatePuzzle();
 ```
 
 You can also specify the difficulty of the puzzle to generate by passing an integer between 0 and 81. This represents how many of the cells will be pre-populated in the puzzle. For example, the below snippet should generate a puzzle with 25 of the cells pre-populated.
 
 ```php
-    $sudoku = new Xeeeveee\Sudoku\Sudoku();
+    $sudoku = new Xeeeveee\Sudoku\Puzzle();
     $sudoku->generatePuzzle(25);
 ```
 
@@ -56,7 +56,7 @@ You can also specify the difficulty of the puzzle to generate by passing an inte
 Solving a puzzle is as simple as calling the `solve()` method on the object, which will return either `true` or `false` depending on the outcome, see below for example:
 
 ```php
-    $sudoku = new Xeeeveee\Sudoku\Sudoku();
+    $sudoku = new Xeeeveee\Sudoku\Puzzle();
     $sudoku->generatePuzzle(25);
     $sudoku->solve();
 ```
@@ -64,7 +64,7 @@ Solving a puzzle is as simple as calling the `solve()` method on the object, whi
 You can use the `isSolved()` method to check if the object contains a solved solution, and use the `getSolution` method to retrieve the array, a more complete example might look like the below:
 
 ```php
-    $sudoku = new Xeeeveee\Sudoku\Sudoku();
+    $sudoku = new Xeeeveee\Sudoku\Puzzle();
     $sudoku->generatePuzzle(25);
 
     if($sudoku->isSolvable() && $sudoku->isSolved() !== true) {
