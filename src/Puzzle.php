@@ -108,13 +108,27 @@ class Puzzle
     }
 
     /**
-     * Gets tge is solved value
+     * Gets the is solved value
      *
      * @return mixed
      */
     public function isSolved()
     {
-        return $this->checkConstraints($this->solution);
+        if(!$this->checkConstraints($this->solution)) {
+            return false;
+        }
+
+        foreach($this->puzzle as $rowIndex => $row) {
+            foreach($row as $columnIndex => $column) {
+                if($column !== 0) {
+                    if($this->puzzle[$rowIndex][$columnIndex] != $this->solution[$rowIndex][$columnIndex]) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -159,7 +173,7 @@ class Puzzle
             foreach ($this->puzzle as &$row) {
                 foreach ($row as &$cell) {
                     if (!in_array($i++, $cells)) {
-                        $cell = null;
+                        $cell = 0;
                     }
                 }
             }

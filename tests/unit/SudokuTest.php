@@ -128,6 +128,61 @@ class PuzzleTest extends \Codeception\TestCase\Test
         $this->assertEquals($sudoku->isSolved(), true);
         $sudoku->generatePuzzle();
         $this->assertEquals($sudoku->isSolved(), false);
+        $sudoku->solve();
+        $this->assertEquals($sudoku->isSolved(), true);
+    }
+
+    public function testSolutionMatchesPuzzle()
+    {
+        $sudoku = new Puzzle([
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 2, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 3, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 4, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 5, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 6, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 7, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 8, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 9],
+        ],
+        [
+            [1, 7, 8, 6, 2, 3, 4, 9, 5],
+            [5, 2, 4, 8, 9, 7, 6, 3, 1],
+            [6, 9, 3, 5, 1, 4, 8, 2, 7],
+            [9, 5, 2, 4, 3, 8, 1, 7, 6],
+            [8, 6, 7, 2, 5, 1, 9, 4, 3],
+            [4, 3, 1, 9, 7, 6, 2, 5, 8],
+            [2, 1, 9, 3, 8, 5, 7, 6, 4],
+            [7, 4, 5, 1, 6, 9, 3, 8, 2],
+            [3, 8, 6, 7, 4, 2, 5, 1, 9],
+        ]);
+
+        $this->assertEquals($sudoku->isSolved(), true);
+
+        $sudoku = new Puzzle([
+            [9, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 8, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 7, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 6, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 5, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 4, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 3, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 2, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1],
+        ],
+        [
+            [1, 7, 8, 6, 2, 3, 4, 9, 5],
+            [5, 2, 4, 8, 9, 7, 6, 3, 1],
+            [6, 9, 3, 5, 1, 4, 8, 2, 7],
+            [9, 5, 2, 4, 3, 8, 1, 7, 6],
+            [8, 6, 7, 2, 5, 1, 9, 4, 3],
+            [4, 3, 1, 9, 7, 6, 2, 5, 8],
+            [2, 1, 9, 3, 8, 5, 7, 6, 4],
+            [7, 4, 5, 1, 6, 9, 3, 8, 2],
+            [3, 8, 6, 7, 4, 2, 5, 1, 9],
+        ]);
+
+        $this->assertEquals($sudoku->isSolved(), false);
     }
 
     public function testGeneratePuzzleDifficultyMinimumConstraintsIdentified()
