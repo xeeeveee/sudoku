@@ -24,6 +24,13 @@ class Puzzle
     protected $solution = [];
 
     /**
+     * The size of the grid
+     *
+     * @var int
+     */
+    protected $gridSize = 3;
+
+    /**
      * Sets the puzzle on construction
      *
      * @param array $puzzle
@@ -33,6 +40,32 @@ class Puzzle
     {
         $this->setPuzzle($puzzle);
         $this->setSolution($solution);
+    }
+
+    /**
+     * Gets the grid size
+     * 
+     * @return int
+     */
+    public function getGridSize()
+    {
+        return $this->gridSize;
+    }
+
+    /**
+     * Sets the grid size
+     *
+     * @param int $gridSize
+     * @return bool
+     */
+    public function setGridSize($gridSize)
+    {
+        if(is_integer($gridSize)) {
+            $this->gridSize = $gridSize;
+            return true;
+        }
+
+        return false;
     }
 
     /**
