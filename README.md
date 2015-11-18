@@ -40,13 +40,7 @@ Install via composer with `php composer require xeeeveee/sudoku:*`
     $puzzle->generatePuzzle();
 
     // Setting properties in the constructor
-    $cellSize = $_POST['cellSize']; // OR: sqrt(count($_POST['puzzle']));
-    $puzzle = $_POST['puzzle'];
-    $solution = $_POST['puzzle'];
     $puzzle = new Xeeeveee\Sudoku\Puzzle($cellSize, $puzzle, $solution);
-    if($puzzle->isSolved()) {
-        // Do stuff
-    }
 ```
 
 ### Generator
