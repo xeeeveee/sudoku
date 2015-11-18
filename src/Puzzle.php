@@ -55,13 +55,18 @@ class Puzzle
     /**
      * Sets the grid size
      *
+     * Changing the grid size will essentially reset the object, setting the $puzzle & $solution properties to valid
+     * empty values. The cell size must be 2 or greater.
+     *
      * @param int $cellSize
      * @return bool
      */
     public function setCellSize($cellSize)
     {
-        if(is_integer($cellSize)) {
+        if(is_integer($cellSize) && $cellSize > 1) {
             $this->cellSize = $cellSize;
+            $this->setPuzzle();
+            $this->setSolution($this->generateEmptyPuzzle());
             return true;
         }
 
