@@ -28,7 +28,7 @@ class Puzzle
      *
      * @var int
      */
-    protected $CellSize = 3;
+    protected $cellSize = 3;
 
     /**
      * Sets the puzzle on construction
@@ -49,19 +49,19 @@ class Puzzle
      */
     public function getCellSize()
     {
-        return $this->CellSize;
+        return $this->cellSize;
     }
 
     /**
      * Sets the grid size
      *
-     * @param int $CellSize
+     * @param int $cellSize
      * @return bool
      */
-    public function setCellSize($CellSize)
+    public function setCellSize($cellSize)
     {
-        if(is_integer($CellSize)) {
-            $this->CellSize = $CellSize;
+        if(is_integer($cellSize)) {
+            $this->cellSize = $cellSize;
             return true;
         }
 
@@ -286,7 +286,7 @@ class Puzzle
      */
     protected function generateEmptyPuzzle()
     {
-        return array_fill(0, ($this->CellSize * $this->CellSize), array_fill(0, ($this->CellSize * $this->CellSize), 0));
+        return array_fill(0, ($this->cellSize * $this->cellSize), array_fill(0, ($this->cellSize * $this->cellSize), 0));
     }
 
     /**
@@ -298,12 +298,12 @@ class Puzzle
      */
     protected function isValidPuzzleFormat(array $puzzle)
     {
-        if (count($puzzle) != ($this->CellSize * $this->CellSize)) {
+        if (count($puzzle) != ($this->cellSize * $this->cellSize)) {
             return false;
         }
 
         foreach ($puzzle as $row) {
-            if (count($row) != ($this->CellSize * $this->CellSize)) {
+            if (count($row) != ($this->cellSize * $this->cellSize)) {
                 return false;
             }
         }
