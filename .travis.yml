@@ -8,4 +8,4 @@ php:
 install:
   - composer self-update
   - composer install
-script: php ./vendor/bin/codecept run
+script: php ./vendor/bin/codecept run unit --coverage
