@@ -373,6 +373,10 @@ class PuzzleTest extends \Codeception\TestCase\Test
         }
 
         $this->assertEquals($counter, 1);
+
+        $this->assertEquals($puzzle->generatePuzzle(33.333), false);
+        $this->assertEquals($puzzle->generatePuzzle(0), true);
+        $this->assertEquals($puzzle->generatePuzzle(1), true);
     }
 
     /**
