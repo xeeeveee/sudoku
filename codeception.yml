@@ -7,10 +7,15 @@ paths:
     envs: tests/_envs
 settings:
     bootstrap: _bootstrap.php
-    colors: false
+    colors: true
     memory_limit: 1024M
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
 modules:
     config:
+coverage:
+    enabled: true
+    remote: false
+    include:
+        - src/*
