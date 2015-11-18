@@ -1,6 +1,5 @@
 <?php
 
-
 use Xeeeveee\Sudoku\Puzzle;
 
 class PuzzleTest extends \Codeception\TestCase\Test
@@ -20,10 +19,6 @@ class PuzzleTest extends \Codeception\TestCase\Test
 
     /**
      * Test the setCellSize is behaving properly
-     *
-     * @covers Xeeeveee\Sudoku\Puzzle::setCellSize
-     * @covers Xeeeveee\Sudoku\Puzzle::getPuzzle
-     * @covers Xeeeveee\Sudoku\Puzzle::getSolution
      */
     public function testSetCellSize()
     {
@@ -109,9 +104,6 @@ class PuzzleTest extends \Codeception\TestCase\Test
 
     /**
      * Checks the grid size is calculated correctly
-     *
-     * @covers Xeeeveee\Sudoku\Puzzle::setCellSize
-     * @covers Xeeeveee\Sudoku\Puzzle::getGridSize
      */
     public function testGetGridSize()
     {
@@ -127,9 +119,6 @@ class PuzzleTest extends \Codeception\TestCase\Test
 
     /**
      * Checks a puzzle is set correctly
-     *
-     * @covers Xeeeveee\Sudoku\Puzzle::setPuzzle
-     * @covers Xeeeveee\Sudoku\Puzzle::getPuzzle
      */
     public function testSetPuzzle()
     {
@@ -178,9 +167,6 @@ class PuzzleTest extends \Codeception\TestCase\Test
 
     /**
      * Checks a solution is set correctly
-     *
-     * @covers Xeeeveee\Sudoku\Puzzle::setSolution
-     * @covers Xeeeveee\Sudoku\Puzzle::getSolution
      */
     public function testSetSolution()
     {
@@ -229,10 +215,6 @@ class PuzzleTest extends \Codeception\TestCase\Test
 
     /**
      * Check a valid solution to the current puzzle can be identified
-     *
-     * @covers Xeeeveee\Sudoku\Puzzle::isSolved
-     * @covers Xeeeveee\Sudoku\Puzzle::setPuzzle
-     * @covers Xeeeveee\Sudoku\Puzzle::setSolution
      */
     public function testIsSolved()
     {
@@ -293,10 +275,6 @@ class PuzzleTest extends \Codeception\TestCase\Test
 
     /**
      * Checks an unsolvable solution can be identified
-     *
-     * @covers Xeeeveee\Sudoku\Puzzle::isSolvable
-     * @covers Xeeeveee\Sudoku\Puzzle::setPuzzle
-     * @covers Xeeeveee\Sudoku\Puzzle::isSolvable
      */
     public function testIsSolvable()
     {
@@ -348,9 +326,6 @@ class PuzzleTest extends \Codeception\TestCase\Test
 
     /**
      * Checks a puzzle can be generated appropriately
-     *
-     * @covers Xeeeveee\Sudoku\Puzzle::isSolvable
-     * @covers Xeeeveee\Sudoku\Puzzle::getPuzzle
      */
     public function testGeneratePuzzle()
     {
@@ -385,8 +360,6 @@ class PuzzleTest extends \Codeception\TestCase\Test
 
     /**
      * Check a puzzle can be solved
-     *
-     * @covers Xeeeveee\Sudoku\Puzzle::solve
      */
     public function testSolve()
     {
