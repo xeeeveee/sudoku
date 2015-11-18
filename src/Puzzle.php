@@ -36,8 +36,9 @@ class Puzzle
      * @param array $puzzle
      * @param array $solution
      */
-    public function __construct(array $puzzle = [], array $solution = [])
+    public function __construct(array $puzzle = [], array $solution = [], $cellSize = 3)
     {
+        $this->setCellSize($cellSize);
         $this->setPuzzle($puzzle);
         $this->setSolution($solution);
     }
