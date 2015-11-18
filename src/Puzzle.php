@@ -131,9 +131,6 @@ class Puzzle
             $this->solution = $solution;
             return true;
         } else {
-            if(!$this->isValidPuzzleFormat($this->solution)) {
-                $this->solution = $this->generateEmptyPuzzle();
-            }
             return false;
         }
     }
