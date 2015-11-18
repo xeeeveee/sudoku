@@ -420,14 +420,11 @@ class Puzzle
             $boxColumn = $columnIndex - $columnIndex % $this->cellSize;
         }
 
-        $invalid = array_unique(
-            array_merge(
-                $invalid,
-                array_slice($grid[$boxRow], $boxColumn, $this->cellSize),
-                array_slice($grid[$boxRow + 1], $boxColumn, $this->cellSize),
-                array_slice($grid[$boxRow + 2], $boxColumn, $this->cellSize)
-            )
-        );
+        for ($i = 0; $i < $this->getCellSize(); $i++) {
+            $invalid = array_merge($invalid, array_slice($grid[$boxRow + $i], $boxColumn, $this->cellSize));
+        }
+
+        $invalid = array_unique($invalid);
 
         $valid = array_diff(range(1, $this->getGridSize()), $invalid);
         shuffle($valid);
