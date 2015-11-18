@@ -24,7 +24,10 @@ class PuzzleTest extends \Codeception\TestCase\Test
     {
         $puzzle = new Puzzle();
 
+        $this->assertEquals($puzzle->getCellSize(), 3);
+
         $puzzle->setCellSize(2);
+        $this->assertEquals($puzzle->getCellSize(), 2);
         $this->assertEquals($puzzle->getPuzzle(), [
             [0, 0, 0, 0],
             [0, 0, 0, 0],
@@ -40,6 +43,7 @@ class PuzzleTest extends \Codeception\TestCase\Test
         ]);
 
         $puzzle->setCellSize(3);
+        $this->assertEquals($puzzle->getCellSize(), 3);
         $this->assertEquals($puzzle->getPuzzle(), [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -64,6 +68,7 @@ class PuzzleTest extends \Codeception\TestCase\Test
         ]);
 
         $puzzle->setCellSize(4);
+        $this->assertEquals($puzzle->getCellSize(), 4);
         $this->assertEquals($puzzle->getPuzzle(), [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
