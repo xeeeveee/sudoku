@@ -24,6 +24,7 @@ class PuzzleTest extends \Codeception\TestCase\Test
     {
         $puzzle = new Puzzle();
 
+        $this->assertEquals($puzzle->setCellSize(1), false);
         $this->assertEquals($puzzle->getCellSize(), 3);
 
         $puzzle->setCellSize(2);
