@@ -337,7 +337,9 @@ class Puzzle
      */
     protected function calculateSolution(array $puzzle)
     {
-        while (true) {
+        $continue = true;
+
+        while ($continue) {
 
             $options = null;
 
@@ -383,8 +385,10 @@ class Puzzle
                 }
             }
 
-            return false;
+            $continue = false;
         }
+
+        return false;
     }
 
     /**
