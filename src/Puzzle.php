@@ -69,6 +69,16 @@ class Puzzle
     }
 
     /**
+     * Gets the grid size
+     *
+     * @return int
+     */
+    public function getGridSize()
+    {
+        return $this->cellSize * $this->cellSize;
+    }
+
+    /**
      * Returns the puzzle array
      * @return array
      */
