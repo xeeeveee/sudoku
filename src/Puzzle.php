@@ -197,7 +197,7 @@ class Puzzle
      */
     public function generatePuzzle($cellCount = 15)
     {
-        if (!is_integer($cellCount) || $cellCount < 0 || $cellCount > 80) {
+        if (!is_integer($cellCount) || $cellCount < 0 || $cellCount > $this->getCellCount()) {
             return false;
         }
 
@@ -206,7 +206,7 @@ class Puzzle
         } else {
             $this->puzzle = $this->calculateSolution($this->generateEmptyPuzzle());
 
-            $cells = array_rand(range(0, 80), $cellCount);
+            $cells = array_rand(range(0, ($this->getCellCount() -1)), $cellCount);
             $i = 0;
 
             if (is_integer($cells)) {
@@ -255,16 +255,16 @@ class Puzzle
 
                 $columns[$columnIndex][] = $cell;
 
-                if ($rowIndex % 3 == 0) {
+                if ($rowIndex % $this->cellSize == 0) {
                     $boxRow = $rowIndex;
                 } else {
-                    $boxRow = $rowIndex - $rowIndex % 3;
+                    $boxRow = $rowIndex - $rowIndex % $this->cellSize;
                 }
 
                 if ($columnIndex % $this->cellSize == 0) {
                     $boxColumn = $columnIndex;
                 } else {
-                    $boxColumn = $columnIndex - $columnIndex % 3;
+                    $boxColumn = $columnIndex - $columnIndex % $this->cellSize;
                 }
 
                 $boxes[$boxRow . $boxColumn][] = $cell;
@@ -411,7 +411,7 @@ class Puzzle
         if ($rowIndex % $this->cellSize == 0) {
             $boxRow = $rowIndex;
         } else {
-            $boxRow = $rowIndex - $rowIndex % 3;
+            $boxRow = $rowIndex - $rowIndex % $this->cellSize;
         }
 
         if ($columnIndex % $this->cellSize == 0) {
@@ -463,5 +463,15 @@ class Puzzle
         }
 
         return true;
+    }
+
+    /**
+     * Gets the total number of cells in the puzzle
+     *
+     * @return int
+     */
+    protected function getCellCount()
+    {
+        return ($this->getGridSize() * $this->getGridSize());
     }
 }
