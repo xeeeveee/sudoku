@@ -175,7 +175,18 @@ class PuzzleTest extends \Codeception\TestCase\Test
      */
     public function testSetSolution()
     {
-        $puzzle = new Puzzle();
+        $puzzle = new Puzzle(3, [], []);
+        $this->assertEquals($puzzle->getSolution(), [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]);
 
         $puzzle->setSolution([
             [0, 0, 0, 0, 0, 0, 0, 0, 0]
