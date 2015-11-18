@@ -18,14 +18,155 @@ class PuzzleTest extends \Codeception\TestCase\Test
     {
     }
 
-    public function testAnEmptySolutionIsGeneratedIfInvalidIsUsed()
+    /**
+     * Test the setCellSize is behaving properly
+     *
+     * @covers Xeeeveee\Sudoku\Puzzle::setCellSize
+     * @covers Xeeeveee\Sudoku\Puzzle::getPuzzle
+     * @covers Xeeeveee\Sudoku\Puzzle::getSolution
+     */
+    public function testSetCellSize()
     {
-        $sudoku = new Puzzle();
+        $puzzle = new Puzzle();
 
-        $this->assertEquals($sudoku->getSolution(), [
+        $puzzle->setCellSize(2);
+        $this->assertEquals($puzzle->getPuzzle(), [
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ]);
+
+        $this->assertEquals($puzzle->getSolution(), [
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ]);
+
+        $puzzle->setCellSize(3);
+        $this->assertEquals($puzzle->getPuzzle(), [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]);
+        $this->assertEquals($puzzle->getSolution(), [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]);
+
+        $puzzle->setCellSize(4);
+        $this->assertEquals($puzzle->getPuzzle(), [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]);
+        $this->assertEquals($puzzle->getSolution(), [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]);
+    }
+
+    /**
+     * Checks the grid size is calculated correctly
+     *
+     * @covers Xeeeveee\Sudoku\Puzzle::setCellSize
+     * @covers Xeeeveee\Sudoku\Puzzle::getGridSize
+     */
+    public function testGetGridSize()
+    {
+        $puzzle = new Puzzle();
+        $this->assertEquals($puzzle->getGridSize(), 9);
+
+        $puzzle->setCellSize(4);
+        $this->assertEquals($puzzle->getGridSize(), 16);
+
+        $puzzle->setCellSize(5);
+        $this->assertEquals($puzzle->getGridSize(), 25);
+    }
+
+    /**
+     * Checks a puzzle is set correctly
+     *
+     * @covers Xeeeveee\Sudoku\Puzzle::setPuzzle
+     * @covers Xeeeveee\Sudoku\Puzzle::getPuzzle
+     */
+    public function testSetPuzzle()
+    {
+        $puzzle = new Puzzle();
+
+        $puzzle->setPuzzle([
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]);
+
+        $this->assertEquals($puzzle->getPuzzle(), [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]);
+
+        $puzzle->setPuzzle([
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]);
+
+        $this->assertEquals($puzzle->getPuzzle(), [
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -35,18 +176,48 @@ class PuzzleTest extends \Codeception\TestCase\Test
         ]);
     }
 
-    public function testInvalidPuzzlesAreIgnored()
+    /**
+     * Checks a solution is set correctly
+     *
+     * @covers Xeeeveee\Sudoku\Puzzle::setSolution
+     * @covers Xeeeveee\Sudoku\Puzzle::getSolution
+     */
+    public function testSetSolution()
     {
-        $sudoku = new Puzzle();
+        $puzzle = new Puzzle();
 
-        $sudoku->setPuzzle([
+        $puzzle->setSolution([
             [0, 0, 0, 0, 0, 0, 0, 0, 0]
         ]);
 
-        $this->assertEquals($sudoku->getPuzzle(), [
+        $this->assertEquals($puzzle->getSolution(), [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]);
+
+        $puzzle->setSolution([
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]);
+
+        $this->assertEquals($puzzle->getSolution(), [
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -56,30 +227,81 @@ class PuzzleTest extends \Codeception\TestCase\Test
         ]);
     }
 
-    public function testRowConstraintsIdentified()
+    /**
+     * Check a valid solution to the current puzzle can be identified
+     *
+     * @covers Xeeeveee\Sudoku\Puzzle::isSolved
+     * @covers Xeeeveee\Sudoku\Puzzle::setPuzzle
+     * @covers Xeeeveee\Sudoku\Puzzle::setSolution
+     */
+    public function testIsSolved()
     {
-        $sudoku = new Puzzle();
+        $puzzle = new Puzzle();
 
-        $sudoku->setPuzzle([
-            [1, 1, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        $this->assertEquals($puzzle->isSolved(), false);
+
+        $puzzle->setPuzzle([
+            [1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 2, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 3, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 4, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 5, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 6, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 7, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 8, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 9],
+        ]);
+        $puzzle->setSolution([
+            [1, 7, 8, 6, 2, 3, 4, 9, 5],
+            [5, 2, 4, 8, 9, 7, 6, 3, 1],
+            [6, 9, 3, 5, 1, 4, 8, 2, 7],
+            [9, 5, 2, 4, 3, 8, 1, 7, 6],
+            [8, 6, 7, 2, 5, 1, 9, 4, 3],
+            [4, 3, 1, 9, 7, 6, 2, 5, 8],
+            [2, 1, 9, 3, 8, 5, 7, 6, 4],
+            [7, 4, 5, 1, 6, 9, 3, 8, 2],
+            [3, 8, 6, 7, 4, 2, 5, 1, 9],
         ]);
 
-        $this->assertEquals($sudoku->isSolvable(), false);
+        $this->assertEquals($puzzle->isSolved(), true);
+
+        $puzzle->setPuzzle([
+            [9, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 8, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 7, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 6, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 5, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 4, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 3, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 2, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1],
+        ]);
+        $puzzle->setSolution([
+            [1, 7, 8, 6, 2, 3, 4, 9, 5],
+            [5, 2, 4, 8, 9, 7, 6, 3, 1],
+            [6, 9, 3, 5, 1, 4, 8, 2, 7],
+            [9, 5, 2, 4, 3, 8, 1, 7, 6],
+            [8, 6, 7, 2, 5, 1, 9, 4, 3],
+            [4, 3, 1, 9, 7, 6, 2, 5, 8],
+            [2, 1, 9, 3, 8, 5, 7, 6, 4],
+            [7, 4, 5, 1, 6, 9, 3, 8, 2],
+            [3, 8, 6, 7, 4, 2, 5, 1, 9],
+        ]);
+
+        $this->assertEquals($puzzle->isSolved(), false);
     }
 
-    public function testColumnConstraintsIdentified()
+    /**
+     * Checks an unsolvable solution can be identified
+     *
+     * @covers Xeeeveee\Sudoku\Puzzle::isSolvable
+     * @covers Xeeeveee\Sudoku\Puzzle::setPuzzle
+     * @covers Xeeeveee\Sudoku\Puzzle::isSolvable
+     */
+    public function testIsSolvable()
     {
-        $sudoku = new Puzzle();
-
-        $sudoku->setPuzzle([
+        $puzzle = new Puzzle();
+        $puzzle->setPuzzle([
             [1, 0, 0, 0, 0, 0, 0, 0, 0],
             [1, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -91,14 +313,10 @@ class PuzzleTest extends \Codeception\TestCase\Test
             [0, 0, 0, 0, 0, 0, 0, 0, 0]
         ]);
 
-        $this->assertEquals($sudoku->isSolvable(), false);
-    }
+        $this->assertEquals($puzzle->isSolvable(), false);
 
-    public function testBoxConstraintsIdentified()
-    {
-        $sudoku = new Puzzle();
-
-        $sudoku->setPuzzle([
+        $puzzle = new Puzzle();
+        $puzzle->setPuzzle([
             [1, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 1, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -110,14 +328,10 @@ class PuzzleTest extends \Codeception\TestCase\Test
             [0, 0, 0, 0, 0, 0, 0, 0, 0]
         ]);
 
-        $this->assertEquals($sudoku->isSolvable(), false);
-    }
+        $this->assertEquals($puzzle->isSolvable(), false);
 
-    public function testInvalidValuesIdentified()
-    {
-        $sudoku = new Puzzle();
-
-        $sudoku->setPuzzle([
+        $puzzle = new Puzzle();
+        $puzzle->setPuzzle([
             [10, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -129,85 +343,21 @@ class PuzzleTest extends \Codeception\TestCase\Test
             [0, 0, 0, 0, 0, 0, 0, 0, 0]
         ]);
 
-        $this->assertEquals($sudoku->isSolvable(), false);
+        $this->assertEquals($puzzle->isSolvable(), false);
     }
 
-    public function testIsSolvedGetsSetAppropriately()
+    /**
+     * Checks a puzzle can be generated appropriately
+     *
+     * @covers Xeeeveee\Sudoku\Puzzle::isSolvable
+     * @covers Xeeeveee\Sudoku\Puzzle::getPuzzle
+     */
+    public function testGeneratePuzzle()
     {
-        $sudoku = new Puzzle();
+        $puzzle = new Puzzle();
 
-        $this->assertEquals($sudoku->isSolved(), false);
-        $sudoku->solve();
-        $this->assertEquals($sudoku->isSolved(), true);
-        $sudoku->setPuzzle();
-        $this->assertEquals($sudoku->isSolved(), false);
-        $sudoku->solve();
-        $this->assertEquals($sudoku->isSolved(), true);
-        $sudoku->generatePuzzle();
-        $this->assertEquals($sudoku->isSolved(), false);
-        $sudoku->solve();
-        $this->assertEquals($sudoku->isSolved(), true);
-    }
-
-    public function testSolutionMatchesPuzzle()
-    {
-        $sudoku = new Puzzle(3, [
-            [1, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 2, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 3, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 4, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 5, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 6, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 7, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 8, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 9],
-        ],
-        [
-            [1, 7, 8, 6, 2, 3, 4, 9, 5],
-            [5, 2, 4, 8, 9, 7, 6, 3, 1],
-            [6, 9, 3, 5, 1, 4, 8, 2, 7],
-            [9, 5, 2, 4, 3, 8, 1, 7, 6],
-            [8, 6, 7, 2, 5, 1, 9, 4, 3],
-            [4, 3, 1, 9, 7, 6, 2, 5, 8],
-            [2, 1, 9, 3, 8, 5, 7, 6, 4],
-            [7, 4, 5, 1, 6, 9, 3, 8, 2],
-            [3, 8, 6, 7, 4, 2, 5, 1, 9],
-        ]);
-
-        $this->assertEquals($sudoku->isSolved(), true);
-
-        $sudoku = new Puzzle(3, [
-            [9, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 8, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 7, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 6, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 5, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 4, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 3, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 2, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 1],
-        ],
-        [
-            [1, 7, 8, 6, 2, 3, 4, 9, 5],
-            [5, 2, 4, 8, 9, 7, 6, 3, 1],
-            [6, 9, 3, 5, 1, 4, 8, 2, 7],
-            [9, 5, 2, 4, 3, 8, 1, 7, 6],
-            [8, 6, 7, 2, 5, 1, 9, 4, 3],
-            [4, 3, 1, 9, 7, 6, 2, 5, 8],
-            [2, 1, 9, 3, 8, 5, 7, 6, 4],
-            [7, 4, 5, 1, 6, 9, 3, 8, 2],
-            [3, 8, 6, 7, 4, 2, 5, 1, 9],
-        ]);
-
-        $this->assertEquals($sudoku->isSolved(), false);
-    }
-
-    public function testGeneratePuzzleDifficultyMinimumConstraintsIdentified()
-    {
-        $sudoku = new Puzzle();
-
-        $this->assertEquals($sudoku->generatePuzzle(0), true);
-        $this->assertEquals($sudoku->getPuzzle(), [
+        $puzzle->generatePuzzle();
+        $this->assertNotEquals($puzzle->getPuzzle(), [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -218,15 +368,33 @@ class PuzzleTest extends \Codeception\TestCase\Test
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0]
         ]);
+        $this->assertEquals($puzzle->isSolvable(), true);
+
+        $puzzle->generatePuzzle(80);
+        $counter = 0;
+        foreach($puzzle->getPuzzle() as $rowIndex => $row) {
+            foreach($row as $columnIndex => $column) {
+                if($column === 0) {
+                    $counter++;
+                }
+            }
+        }
+
+        $this->assertEquals($counter, 1);
     }
 
-    public function testGeneratePuzzleDifficultyLowestPossibleValue()
+    /**
+     * Check a puzzle can be solved
+     *
+     * @covers Xeeeveee\Sudoku\Puzzle::solve
+     */
+    public function testSolve()
     {
-        $sudoku = new Puzzle();
+        $puzzle = new Puzzle();
+        $this->assertEquals($puzzle->solve(), true);
 
-        $this->assertEquals($sudoku->generatePuzzle(0), true);
-        $this->assertEquals($sudoku->getPuzzle(), [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        $puzzle->setPuzzle([
+            [10, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -236,87 +404,6 @@ class PuzzleTest extends \Codeception\TestCase\Test
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0]
         ]);
-    }
-
-    public function testGeneratePuzzleDifficultyMaximumConstraintsIdentified()
-    {
-        $sudoku = new Puzzle();
-
-        $this->assertEquals($sudoku->generatePuzzle(81), false);
-        $this->assertEquals($sudoku->getPuzzle(), [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ]);
-    }
-
-    public function testGeneratePuzzleDifficultyHighestPossibleValue()
-    {
-        $sudoku = new Puzzle();
-
-        $this->assertNotEquals($sudoku->generatePuzzle(80), false);
-        $this->assertNotEquals($sudoku->getPuzzle(), [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ]);
-    }
-
-    public function testChangingTheCellSizeResetsTheObject()
-    {
-        $grid = [
-            [1, 0, 0, 0],
-            [0, 2, 0, 0],
-            [0, 0, 1, 0],
-            [0, 0, 0, 2],
-        ];
-
-        $sudoku = new Puzzle(2, $grid);
-        $this->assertEquals($sudoku->getPuzzle(), $grid);
-
-        $sudoku->setCellSize(3);
-        $this->assertEquals($sudoku->getPuzzle(), [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ]);
-
-        $sudoku->setCellSize(4);
-        $this->assertEquals($sudoku->getPuzzle(), [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ]);
+        $this->assertEquals($puzzle->solve(), false);
     }
 }
