@@ -309,7 +309,7 @@ class Puzzle
      */
     protected function isValidPuzzleFormat(array $puzzle)
     {
-        if (count($puzzle) != $this->getGridSize()) {
+        if (!is_array($puzzle) || count($puzzle) != $this->getGridSize()) {
             return false;
         }
 
