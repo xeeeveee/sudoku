@@ -52,7 +52,7 @@ Once an instance has been initialized you can generate a new sudoku puzzle by ca
     $puzzle->generatePuzzle();
 ```
 
-You can also specify the difficulty of the puzzle to generate by passing an integer between 0 and 81. This represents how many of the cells will be pre-populated in the puzzle. For example, the below snippet should generate a puzzle with 25 of the cells pre-populated.
+You can also specify the difficulty of the puzzle to generate by passing an integer between 0 and the maximum number of cells in the puzzle (81 for a 3*3 `$cellSize`). This represents how many of the cells will be pre-populated in the puzzle. For example, the below snippet should generate a puzzle with 25 of the cells pre-populated.
 
 ```php
     $puzzle = new Xeeeveee\Sudoku\Puzzle();
@@ -84,7 +84,7 @@ You can use the `isSolved()` method to check if the object contains a solved sol
 
 ### Puzzle & solution format
 
-The puzzle and solution is represented as 3 dimensional array, effectively 9 rows with 9 columns where blank values are represented as `0`. The definition for a complete empty puzzle or solution would look like the below:
+A standard (`$cellSize` 3) puzzle and solution is represented as 3 dimensional array, effectively 9 (`$cellSize` * `$cellSize`) rows with the same number of columns. Blank values are represented as `0`. The definition for a complete empty (`$cellSize 3) puzzle or solution would look like the below:
 
 ```php
     $puzzle = [
