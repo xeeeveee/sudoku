@@ -18,6 +18,23 @@ class PuzzleTest extends \Codeception\TestCase\Test
     {
     }
 
+    public function testAnEmptySolutionIsGeneratedIfInvalidIsUsed()
+    {
+        $sudoku = new Puzzle();
+
+        $this->assertEquals($sudoku->getSolution(), [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]);
+    }
+
     public function testInvalidPuzzlesAreIgnored()
     {
         $sudoku = new Puzzle();
