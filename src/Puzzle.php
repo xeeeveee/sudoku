@@ -248,7 +248,7 @@ class Puzzle
                     continue;
                 }
 
-                if (!in_array($cell, [1, 2, 3, 4, 5, 6, 7, 8, 9])) {
+                if (!in_array($cell, range(1, $this->getGridSize()))) {
                     return false;
                 }
 
@@ -260,7 +260,7 @@ class Puzzle
                     $boxRow = $rowIndex - $rowIndex % 3;
                 }
 
-                if ($columnIndex % 3 == 0) {
+                if ($columnIndex % $this->cellSize == 0) {
                     $boxColumn = $columnIndex;
                 } else {
                     $boxColumn = $columnIndex - $columnIndex % 3;
@@ -296,7 +296,7 @@ class Puzzle
      */
     protected function generateEmptyPuzzle()
     {
-        return array_fill(0, ($this->cellSize * $this->cellSize), array_fill(0, ($this->cellSize * $this->cellSize), 0));
+        return array_fill(0, $this->getGridSize(), array_fill(0, $this->getGridSize(), 0));
     }
 
     /**
@@ -308,12 +308,12 @@ class Puzzle
      */
     protected function isValidPuzzleFormat(array $puzzle)
     {
-        if (count($puzzle) != ($this->cellSize * $this->cellSize)) {
+        if (count($puzzle) != $this->getGridSize()) {
             return false;
         }
 
         foreach ($puzzle as $row) {
-            if (count($row) != ($this->cellSize * $this->cellSize)) {
+            if (count($row) != $this->getGridSize()) {
                 return false;
             }
         }
@@ -399,32 +399,32 @@ class Puzzle
     {
         $invalid = $grid[$rowIndex];
 
-        for ($i = 0; $i < 9; $i++) {
+        for ($i = 0; $i < $this->getGridSize(); $i++) {
             $invalid[] = $grid[$i][$columnIndex];
         }
 
-        if ($rowIndex % 3 == 0) {
+        if ($rowIndex % $this->cellSize == 0) {
             $boxRow = $rowIndex;
         } else {
             $boxRow = $rowIndex - $rowIndex % 3;
         }
 
-        if ($columnIndex % 3 == 0) {
+        if ($columnIndex % $this->cellSize == 0) {
             $boxColumn = $columnIndex;
         } else {
-            $boxColumn = $columnIndex - $columnIndex % 3;
+            $boxColumn = $columnIndex - $columnIndex % $this->cellSize;
         }
 
         $invalid = array_unique(
             array_merge(
                 $invalid,
-                array_slice($grid[$boxRow], $boxColumn, 3),
-                array_slice($grid[$boxRow + 1], $boxColumn, 3),
-                array_slice($grid[$boxRow + 2], $boxColumn, 3)
+                array_slice($grid[$boxRow], $boxColumn, $this->cellSize),
+                array_slice($grid[$boxRow + 1], $boxColumn, $this->cellSize),
+                array_slice($grid[$boxRow + 2], $boxColumn, $this->cellSize)
             )
         );
 
-        $valid = array_diff(range(1, 9), $invalid);
+        $valid = array_diff(range(1, $this->getGridSize()), $invalid);
         shuffle($valid);
 
         return $valid;
