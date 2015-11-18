@@ -134,7 +134,7 @@ class PuzzleTest extends \Codeception\TestCase\Test
 
     public function testSolutionMatchesPuzzle()
     {
-        $sudoku = new Puzzle([
+        $sudoku = new Puzzle(3, [
             [1, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 2, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 3, 0, 0, 0, 0, 0, 0],
@@ -159,7 +159,7 @@ class PuzzleTest extends \Codeception\TestCase\Test
 
         $this->assertEquals($sudoku->isSolved(), true);
 
-        $sudoku = new Puzzle([
+        $sudoku = new Puzzle(3, [
             [9, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 8, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 7, 0, 0, 0, 0, 0, 0],
