@@ -1,10 +1,5 @@
 <?php
 
-/*
- * TODO: Enhance isSolved() to ensure the solution solves the puzzle stored in $this->puzzle and is not just a valid
- * solution
- */
-
 namespace Xeeeveee\Sudoku;
 
 class Puzzle
