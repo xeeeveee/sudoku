@@ -6,6 +6,7 @@ php:
   - 7.0
   - hhvm
 before_install:
+  - pip install --upgrade pip codecov
   - pip install codecov
 after_success:
   - codecov
