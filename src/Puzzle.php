@@ -25,11 +25,33 @@ class Puzzle
      */
     protected $cellSize = 3;
 
+    /**
+     * Reference to the puzzle rows
+     *
+     * @var array
+     */
     protected $rows;
 
+    /**
+     * Reference to the puzzle columns
+     *
+     * @var array
+     */
     protected $columns;
 
+    /**
+     * Reference to the puzzle boxes
+     *
+     * @var array
+     */
     protected $boxes;
+
+    /**
+     * Box lookup by row and column index
+     *
+     * @var array
+     */
+    protected $boxLookup;
 
     /**
      * Sets the puzzle on construction
@@ -369,14 +391,7 @@ class Puzzle
                     continue;
                 }
 
-                /*
-                 * TODO: try and remove the need to do this here
-                 */
-                $row = floor(($rowIndex ) / $this->cellSize);
-                $column =  floor(($columnIndex ) / $this->cellSize);
-                $boxIndex = $row * $this->cellSize + $column;
-
-                $validOptions = $this->getValidOptions($rowIndex, $columnIndex, $boxIndex);
+                $validOptions = $this->getValidOptions($rowIndex, $columnIndex);
 
                 if (count($validOptions) == 0) {
                     return false;
@@ -421,13 +436,12 @@ class Puzzle
      *
      * @param integer $rowIndex
      * @param integer $columnIndex
-     * @param integer $boxIndex
      *
      * @return array
      */
-    protected function getValidOptions($rowIndex, $columnIndex, $boxIndex)
+    protected function getValidOptions($rowIndex, $columnIndex)
     {
-        $invalid = array_merge($this->rows[$rowIndex], $this->columns[$columnIndex], $this->boxes[$boxIndex]);
+        $invalid = array_merge($this->rows[$rowIndex], $this->columns[$columnIndex], $this->boxes[$this->boxLookup[$rowIndex][$columnIndex]]);
         $invalid = array_unique($invalid);
 
         $valid = array_diff(range(1, $this->getGridSize()), $invalid);
@@ -504,7 +518,7 @@ class Puzzle
     /**
      * Sets a boxes array linked to the puzzle by reference
      */
-    public function setBoxes()
+    protected function setBoxes()
     {
         for($i = 0; $i < $this->getGridSize(); $i++)
         {
@@ -516,6 +530,7 @@ class Puzzle
                 $cell = ($i % $this->cellSize) * ($this->cellSize) + ($j % $this->cellSize);
 
                 $this->boxes[$box][$cell] = &$this->puzzle[$i][$j];
+                $this->boxLookup[$i][$j] = $box;
             }
         }
     }
