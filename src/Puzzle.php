@@ -25,6 +25,12 @@ class Puzzle
      */
     protected $cellSize = 3;
 
+    protected $rows;
+
+    protected $columns;
+
+    protected $boxes;
+
     /**
      * Sets the puzzle on construction
      *
@@ -100,10 +106,16 @@ class Puzzle
     {
         if ($this->isValidPuzzleFormat($puzzle)) {
             $this->puzzle = $puzzle;
+            $this->setRows();
+            $this->setColumns();
+            $this->setBoxes();
             $this->setSolution($this->generateEmptyPuzzle());
             return true;
         } else {
             $this->puzzle = $this->generateEmptyPuzzle();
+            $this->setRows();
+            $this->setColumns();
+            $this->setBoxes();
             $this->setSolution($this->generateEmptyPuzzle());
             return false;
         }
@@ -203,8 +215,14 @@ class Puzzle
 
         if ($cellCount === 0) {
             $this->puzzle = $this->generateEmptyPuzzle();
+            $this->setRows();
+            $this->setColumns();
+            $this->setBoxes();
         } else {
             $this->puzzle = $this->calculateSolution($this->generateEmptyPuzzle());
+            $this->setRows();
+            $this->setColumns();
+            $this->setBoxes();
 
             $cells = array_rand(range(0, ($this->getCellCount() -1)), $cellCount);
             $i = 0;
@@ -351,7 +369,14 @@ class Puzzle
                     continue;
                 }
 
-                $validOptions = $this->getValidOptions($puzzle, $rowIndex, $columnIndex);
+                /*
+                 * TODO: try and remove the need to do this here
+                 */
+                $row = floor(($rowIndex ) / $this->cellSize);
+                $column =  floor(($columnIndex ) / $this->cellSize);
+                $boxIndex = $row * $this->cellSize + $column;
+
+                $validOptions = $this->getValidOptions($rowIndex, $columnIndex, $boxIndex);
 
                 if (count($validOptions) == 0) {
                     return false;
@@ -394,36 +419,15 @@ class Puzzle
     /**
      * Gets the valid options for a cell based on the constraints of the game
      *
-     * @param array $grid
      * @param integer $rowIndex
      * @param integer $columnIndex
+     * @param integer $boxIndex
      *
      * @return array
      */
-    protected function getValidOptions(array $grid, $rowIndex, $columnIndex)
+    protected function getValidOptions($rowIndex, $columnIndex, $boxIndex)
     {
-        $invalid = $grid[$rowIndex];
-
-        for ($i = 0; $i < $this->getGridSize(); $i++) {
-            $invalid[] = $grid[$i][$columnIndex];
-        }
-
-        if ($rowIndex % $this->cellSize == 0) {
-            $boxRow = $rowIndex;
-        } else {
-            $boxRow = $rowIndex - $rowIndex % $this->cellSize;
-        }
-
-        if ($columnIndex % $this->cellSize == 0) {
-            $boxColumn = $columnIndex;
-        } else {
-            $boxColumn = $columnIndex - $columnIndex % $this->cellSize;
-        }
-
-        for ($i = 0; $i < $this->getCellSize(); $i++) {
-            $invalid = array_merge($invalid, array_slice($grid[$boxRow + $i], $boxColumn, $this->cellSize));
-        }
-
+        $invalid = array_merge($this->rows[$rowIndex], $this->columns[$columnIndex], $this->boxes[$boxIndex]);
         $invalid = array_unique($invalid);
 
         $valid = array_diff(range(1, $this->getGridSize()), $invalid);
@@ -470,5 +474,49 @@ class Puzzle
     protected function getCellCount()
     {
         return ($this->getGridSize() * $this->getGridSize());
+    }
+
+    /**
+     * Sets a rows array linked to the puzzle by reference
+     */
+    protected function setRows()
+    {
+        for($i = 0; $i < $this->getGridSize(); $i++)
+        {
+            $this->rows[$i] = &$this->puzzle[$i];
+        }
+    }
+
+    /**
+     * Sets a columns array linked to the puzzle by reference
+     */
+    protected function setColumns()
+    {
+        for($i = 0; $i < $this->getGridSize(); $i++)
+        {
+            for($j = 0; $j < $this->getGridSize(); $j++)
+            {
+                $this->columns[$j][$i] = &$this->puzzle[$i][$j];
+            }
+        }
+    }
+
+    /**
+     * Sets a boxes array linked to the puzzle by reference
+     */
+    public function setBoxes()
+    {
+        for($i = 0; $i < $this->getGridSize(); $i++)
+        {
+            for($j = 0; $j < $this->getGridSize(); $j++)
+            {
+                $row = floor(($i ) / $this->cellSize);
+                $column =  floor(($j ) / $this->cellSize);
+                $box = $row * $this->cellSize + $column;
+                $cell = ($i % $this->cellSize) * ($this->cellSize) + ($j % $this->cellSize);
+
+                $this->boxes[$box][$cell] = &$this->puzzle[$i][$j];
+            }
+        }
     }
 }
