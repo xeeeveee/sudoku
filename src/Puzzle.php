@@ -115,13 +115,13 @@ class Puzzle
     {
         if ($this->isValidPuzzleFormat($puzzle)) {
             $this->puzzle = $puzzle;
+            $this->setSolution($this->puzzle);
             $this->prepareReferences();
-            $this->setSolution($this->generateEmptyPuzzle());
             return true;
         } else {
             $this->puzzle = $this->generateEmptyPuzzle();
+            $this->setSolution($this->puzzle);
             $this->prepareReferences();
-            $this->setSolution($this->generateEmptyPuzzle());
             return false;
         }
     }
@@ -161,9 +161,7 @@ class Puzzle
     public function solve()
     {
         if ($this->isSolvable()) {
-            $this->solution = $this->calculateSolution($this->puzzle);
-            $this->prepareReferences(false);
-            return true;
+            return $this->calculateSolution($this->solution);
         } else {
             return false;
         }
@@ -183,7 +181,7 @@ class Puzzle
         foreach ($this->puzzle as $rowIndex => $row) {
             foreach ($row as $columnIndex => $column) {
                 if ($column !== 0) {
-                    if ($this->puzzle['rows'][$rowIndex][$columnIndex] != $this->solution['rows'][$rowIndex][$columnIndex]) {
+                    if ($this->puzzle[$rowIndex][$columnIndex] != $this->solution[$rowIndex][$columnIndex]) {
                         return false;
                     }
                 }
@@ -265,7 +263,7 @@ class Puzzle
 
             foreach ($columns as $columnIndex => $column) {
 
-                if (!$this->checkContainerForViolations($column[$columnIndex], $allowZeros)) {
+                if (!$this->checkContainerForViolations($column, $allowZeros)) {
                     return false;
                 }
 
@@ -345,27 +343,32 @@ class Puzzle
                     return false;
                 }
 
-                $options = array(
-                    'rowIndex' => $rowIndex,
-                    'columnIndex' => $columnIndex,
-                    'validOptions' => $validOptions
-                );
-
                 break;
             }
 
-            if ($options == null) {
+            if (!isset($validOptions)) {
                 return false;
             }
 
-            if (count($options['validOptions']) == 1) {
-                $puzzle[$options['rowIndex']][$options['columnIndex']] = current($options['validOptions']);
+            if (count($options) == 1) {
+                $this->solution[$rowIndex][$columnIndex] = $validOptions[0];
                 continue;
             }
 
-            foreach ($options['validOptions'] as $value) {
+            foreach ($validOptions as $key => $value) {
+
+                /*
+                 * TODO: Fix reference issue
+                 * The below check Shouldn't be needed and still isn't right - Something to do with the references is
+                 * off, causing invalid values to be attempted. The back tracking is also getting stuck and completing
+                 * with partially complete solutions
+                 */
+                if(in_array($value, $this->solution[$rowIndex])) {
+                    continue;
+                }
+
                 $tempPuzzle = $puzzle;
-                $tempPuzzle[$options['rowIndex']][$options['columnIndex']] = $value;
+                $tempPuzzle[$rowIndex][$columnIndex] = $value;
                 $result = $this->calculateSolution($tempPuzzle);
 
                 if ($result == true) {
@@ -453,11 +456,7 @@ class Puzzle
             $source = &$this->solution;
             $columns = &$this->solutionColumns;
             $boxes = &$this->solutionBoxes;
-
-            $columns = [0,1,2,3,4,5,6,7,8];
         }
-
-
 
         $this->setColumns($source, $columns);
         $this->setBoxes($source, $boxes);
