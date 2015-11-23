@@ -11,6 +11,10 @@ class Puzzle
      */
     protected $puzzle = [];
 
+    protected $puzzleColumns = [];
+
+    protected $puzzleBoxes = [];
+
     /**
      * Holds the solution
      *
@@ -18,33 +22,16 @@ class Puzzle
      */
     protected $solution = [];
 
+    protected $solutionColumns = [];
+
+    protected $solutionBoxes = [];
+
     /**
      * The size of the grid
      *
      * @var int
      */
     protected $cellSize = 3;
-
-    /**
-     * Reference to the puzzle rows
-     *
-     * @var array
-     */
-    protected $rows;
-
-    /**
-     * Reference to the puzzle columns
-     *
-     * @var array
-     */
-    protected $columns;
-
-    /**
-     * Reference to the puzzle boxes
-     *
-     * @var array
-     */
-    protected $boxes;
 
     /**
      * Box lookup by row and column index
@@ -128,16 +115,12 @@ class Puzzle
     {
         if ($this->isValidPuzzleFormat($puzzle)) {
             $this->puzzle = $puzzle;
-            $this->setRows();
-            $this->setColumns();
-            $this->setBoxes();
+            $this->prepareReferences();
             $this->setSolution($this->generateEmptyPuzzle());
             return true;
         } else {
             $this->puzzle = $this->generateEmptyPuzzle();
-            $this->setRows();
-            $this->setColumns();
-            $this->setBoxes();
+            $this->prepareReferences();
             $this->setSolution($this->generateEmptyPuzzle());
             return false;
         }
@@ -163,6 +146,7 @@ class Puzzle
     {
         if ($this->isValidPuzzleFormat($solution)) {
             $this->solution = $solution;
+            $this->prepareReferences(false);
             return true;
         } else {
             return false;
@@ -178,6 +162,7 @@ class Puzzle
     {
         if ($this->isSolvable()) {
             $this->solution = $this->calculateSolution($this->puzzle);
+            $this->prepareReferences(false);
             return true;
         } else {
             return false;
@@ -191,14 +176,14 @@ class Puzzle
      */
     public function isSolved()
     {
-        if (!$this->checkConstraints($this->solution)) {
+        if (!$this->checkConstraints($this->solution, $this->solutionColumns, $this->solutionBoxes)) {
             return false;
         }
 
         foreach ($this->puzzle as $rowIndex => $row) {
             foreach ($row as $columnIndex => $column) {
                 if ($column !== 0) {
-                    if ($this->puzzle[$rowIndex][$columnIndex] != $this->solution[$rowIndex][$columnIndex]) {
+                    if ($this->puzzle['rows'][$rowIndex][$columnIndex] != $this->solution['rows'][$rowIndex][$columnIndex]) {
                         return false;
                     }
                 }
@@ -217,7 +202,7 @@ class Puzzle
      */
     public function isSolvable()
     {
-        return $this->checkConstraints($this->puzzle, true);
+        return $this->checkConstraints($this->puzzle, $this->puzzleColumns, $this->puzzleBoxes, true);
     }
 
     /**
@@ -236,16 +221,9 @@ class Puzzle
         }
 
         if ($cellCount === 0) {
-            $this->puzzle = $this->generateEmptyPuzzle();
-            $this->setRows();
-            $this->setColumns();
-            $this->setBoxes();
+            $this->setPuzzle($this->generateEmptyPuzzle());
         } else {
-            $this->puzzle = $this->calculateSolution($this->generateEmptyPuzzle());
-            $this->setRows();
-            $this->setColumns();
-            $this->setBoxes();
-
+            $this->setPuzzle($this->calculateSolution($this->generateEmptyPuzzle()));
             $cells = array_rand(range(0, ($this->getCellCount() -1)), $cellCount);
             $i = 0;
 
@@ -253,7 +231,7 @@ class Puzzle
                 $cells = [$cells];
             }
 
-            foreach ($this->puzzle as &$row) {
+            foreach ($this->puzzle['rows'] as &$row) {
                 foreach ($row as &$cell) {
                     if (!in_array($i++, $cells)) {
                         $cell = 0;
@@ -262,6 +240,7 @@ class Puzzle
             }
         }
 
+        $this->prepareReferences();
         $this->setSolution($this->generateEmptyPuzzle());
 
         return true;
@@ -270,58 +249,27 @@ class Puzzle
     /**
      * Check constraints of a puzzle or solution
      *
-     * @param array $puzzle
+     * @param array $rows
+     * @param array $columns
+     * @param array $boxes
      * @param bool $allowZeros
      *
      * @return bool
      */
-    protected function checkConstraints(array $puzzle, $allowZeros = false)
+    protected function checkConstraints($rows, $columns, $boxes, $allowZeros = false)
     {
-        foreach ($puzzle as $rowIndex => $row) {
-
+        foreach ($rows as $rowIndex => $row) {
             if (!$this->checkContainerForViolations($row, $allowZeros)) {
                 return false;
             }
 
-            foreach ($row as $columnIndex => $cell) {
+            foreach ($columns as $columnIndex => $column) {
 
-                if ($cell == 0) {
-                    continue;
-                }
-
-                if (!in_array($cell, range(1, $this->getGridSize()))) {
+                if (!$this->checkContainerForViolations($column[$columnIndex], $allowZeros)) {
                     return false;
                 }
 
-                $columns[$columnIndex][] = $cell;
-
-                if ($rowIndex % $this->cellSize == 0) {
-                    $boxRow = $rowIndex;
-                } else {
-                    $boxRow = $rowIndex - $rowIndex % $this->cellSize;
-                }
-
-                if ($columnIndex % $this->cellSize == 0) {
-                    $boxColumn = $columnIndex;
-                } else {
-                    $boxColumn = $columnIndex - $columnIndex % $this->cellSize;
-                }
-
-                $boxes[$boxRow . $boxColumn][] = $cell;
-            }
-        }
-
-        if (isset($columns)) {
-            foreach ($columns as $column) {
-                if (!$this->checkContainerForViolations($column, $allowZeros)) {
-                    return false;
-                }
-            }
-        }
-
-        if (isset($boxes)) {
-            foreach ($boxes as $box) {
-                if (!$this->checkContainerForViolations($box, $allowZeros)) {
+                if (!$this->checkContainerForViolations($boxes[$this->boxLookup[$rowIndex][$columnIndex]], $allowZeros)) {
                     return false;
                 }
             }
@@ -373,7 +321,7 @@ class Puzzle
      *
      * @param array $puzzle
      *
-     * @return array|bool
+     * @return bool
      */
     protected function calculateSolution(array $puzzle)
     {
@@ -407,7 +355,7 @@ class Puzzle
             }
 
             if ($options == null) {
-                return $puzzle;
+                return false;
             }
 
             if (count($options['validOptions']) == 1) {
@@ -441,7 +389,7 @@ class Puzzle
      */
     protected function getValidOptions($rowIndex, $columnIndex)
     {
-        $invalid = array_merge($this->rows[$rowIndex], $this->columns[$columnIndex], $this->boxes[$this->boxLookup[$rowIndex][$columnIndex]]);
+        $invalid = array_merge($this->solution[$rowIndex], $this->solutionColumns[$columnIndex], $this->solutionBoxes[$this->boxLookup[$rowIndex][$columnIndex]]);
         $invalid = array_unique($invalid);
 
         $valid = array_diff(range(1, $this->getGridSize()), $invalid);
@@ -491,34 +439,54 @@ class Puzzle
     }
 
     /**
-     * Sets a rows array linked to the puzzle by reference
+     * Prepares references
+     *
+     * @param bool $puzzle
      */
-    protected function setRows()
+    protected function prepareReferences($puzzle = true)
     {
-        for($i = 0; $i < $this->getGridSize(); $i++)
-        {
-            $this->rows[$i] = &$this->puzzle[$i];
+        if($puzzle) {
+            $source = &$this->puzzle;
+            $columns = &$this->puzzleColumns;
+            $boxes = &$this->puzzleBoxes;
+        } else {
+            $source = &$this->solution;
+            $columns = &$this->solutionColumns;
+            $boxes = &$this->solutionBoxes;
+
+            $columns = [0,1,2,3,4,5,6,7,8];
         }
+
+
+
+        $this->setColumns($source, $columns);
+        $this->setBoxes($source, $boxes);
     }
 
     /**
      * Sets a columns array linked to the puzzle by reference
+     *
+     * @param array $source
+     * @param array $columns
      */
-    protected function setColumns()
+    protected function setColumns(array &$source, array &$columns)
     {
         for($i = 0; $i < $this->getGridSize(); $i++)
         {
             for($j = 0; $j < $this->getGridSize(); $j++)
             {
-                $this->columns[$j][$i] = &$this->puzzle[$i][$j];
+                $columns[$j][$i] = &$source[$i][$j];
             }
         }
     }
 
     /**
      * Sets a boxes array linked to the puzzle by reference
+     *
+     * @param array $source
+     * @param array $boxes
      */
-    protected function setBoxes()
+    protected function setBoxes(array &$source, array &$boxes)
     {
         for($i = 0; $i < $this->getGridSize(); $i++)
         {
@@ -526,10 +494,10 @@ class Puzzle
             {
                 $row = floor(($i ) / $this->cellSize);
                 $column =  floor(($j ) / $this->cellSize);
-                $box = $row * $this->cellSize + $column;
+                $box = (int) floor($row * $this->cellSize + $column);
                 $cell = ($i % $this->cellSize) * ($this->cellSize) + ($j % $this->cellSize);
 
-                $this->boxes[$box][$cell] = &$this->puzzle[$i][$j];
+                $boxes[$box][$cell] = &$source[$i][$j];
                 $this->boxLookup[$i][$j] = $box;
             }
         }
