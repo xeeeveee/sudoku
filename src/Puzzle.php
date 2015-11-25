@@ -48,9 +48,7 @@ class Puzzle
      */
     public function __construct($cellSize = 3, array $puzzle = [], array $solution = [])
     {
-        $this->setCellSize($cellSize);
-        $this->setPuzzle($puzzle);
-        $this->setSolution($solution);
+        $this->setCellSize($cellSize, $puzzle, $solution);
     }
 
     /**
@@ -70,14 +68,16 @@ class Puzzle
      * empty values. The cell size must be 2 or greater.
      *
      * @param int $cellSize
+     * @param array $puzzle
+     * @param array $solution
      * @return bool
      */
-    public function setCellSize($cellSize)
+    public function setCellSize($cellSize, array $puzzle = [], array $solution = [])
     {
         if(is_integer($cellSize) && $cellSize > 1) {
             $this->cellSize = $cellSize;
-            $this->setPuzzle();
-            $this->setSolution($this->generateEmptyPuzzle());
+            $this->setPuzzle($puzzle);
+            $this->setSolution($solution);
             return true;
         }
 
@@ -161,10 +161,12 @@ class Puzzle
     public function solve()
     {
         if ($this->isSolvable()) {
-            return $this->calculateSolution($this->solution);
-        } else {
-            return false;
+            if($this->calculateSolution($this->solution)) {
+                return true;
+            }
         }
+
+        return false;
     }
 
     /**
@@ -218,10 +220,10 @@ class Puzzle
             return false;
         }
 
-        if ($cellCount === 0) {
-            $this->setPuzzle($this->generateEmptyPuzzle());
-        } else {
-            $this->setPuzzle($this->calculateSolution($this->generateEmptyPuzzle()));
+        $this->setPuzzle($this->generateEmptyPuzzle());
+
+        if ($cellCount > 0) {
+            $this->solve();
             $cells = array_rand(range(0, ($this->getCellCount() -1)), $cellCount);
             $i = 0;
 
@@ -229,17 +231,19 @@ class Puzzle
                 $cells = [$cells];
             }
 
-            foreach ($this->puzzle['rows'] as &$row) {
+            foreach ($this->solution as &$row) {
                 foreach ($row as &$cell) {
                     if (!in_array($i++, $cells)) {
                         $cell = 0;
                     }
                 }
             }
+
+            // Breaks reference between puzzle & solution
+            $this->puzzle = unserialize(serialize($this->solution));
         }
 
         $this->prepareReferences();
-        $this->setSolution($this->generateEmptyPuzzle());
 
         return true;
     }
@@ -346,33 +350,18 @@ class Puzzle
                 break;
             }
 
-            if (!isset($validOptions)) {
-                return false;
-            }
-
-            if (count($options) == 1) {
-                $this->solution[$rowIndex][$columnIndex] = $validOptions[0];
-                continue;
+            if (!isset($validOptions) || empty($validOptions)) {
+                return $puzzle;
             }
 
             foreach ($validOptions as $key => $value) {
-
-                /*
-                 * TODO: Fix reference issue
-                 * The below check Shouldn't be needed and still isn't right - Something to do with the references is
-                 * off, causing invalid values to be attempted. The back tracking is also getting stuck and completing
-                 * with partially complete solutions
-                 */
-                if(in_array($value, $this->solution[$rowIndex])) {
-                    continue;
-                }
-
-                $tempPuzzle = $puzzle;
-                $tempPuzzle[$rowIndex][$columnIndex] = $value;
-                $result = $this->calculateSolution($tempPuzzle);
+                $puzzle[$rowIndex][$columnIndex] = $value;
+                $result = $this->calculateSolution($puzzle);
 
                 if ($result == true) {
                     return $result;
+                } else {
+                    $puzzle[$rowIndex][$columnIndex] = 0;
                 }
             }
 
@@ -393,7 +382,7 @@ class Puzzle
     protected function getValidOptions($rowIndex, $columnIndex)
     {
         $invalid = array_merge($this->solution[$rowIndex], $this->solutionColumns[$columnIndex], $this->solutionBoxes[$this->boxLookup[$rowIndex][$columnIndex]]);
-        $invalid = array_unique($invalid);
+        $invalid = array_flip(array_flip($invalid));
 
         $valid = array_diff(range(1, $this->getGridSize()), $invalid);
         shuffle($valid);
@@ -424,7 +413,19 @@ class Puzzle
             }
         }
 
-        if (count($container) != count(array_unique($container))) {
+        // array_flip(array_flip()) is significantly faster than array_unique()
+        $flippedContainer = array_flip($container);
+        $uniqueContainer = array_flip($flippedContainer);
+
+        if (count($container) != count($uniqueContainer)) {
+            return false;
+        }
+
+        foreach(range(1, $this->getGridSize()) as $index) {
+            unset($flippedContainer[$index]);
+        }
+
+        if(!empty($flippedContainer)) {
             return false;
         }
 
