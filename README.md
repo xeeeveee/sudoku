@@ -100,6 +100,12 @@ A standard (`$cellSize` 3) puzzle and solution is represented as 3 dimensional a
     ];
 ```
 
+### Performance notice
+
+Due to the nature of the algorithm used to generate and solve puzzles, the execution time for these commands increases
+exponentially as the `$cellSize` used is increased, puzzles with a `$cellSize` exceeding 4 will take an exceptionally
+long time to solve on average.
+
 ### Available methods
 
 **integer** `getCellSize()`
