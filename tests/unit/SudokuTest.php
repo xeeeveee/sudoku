@@ -372,7 +372,7 @@ class PuzzleTest extends \Codeception\TestCase\Test
     {
         $puzzle = new Puzzle();
 
-        $puzzle->generatePuzzle();
+        $puzzle->generatePuzzle(55);
         $this->assertNotEquals($puzzle->getPuzzle(), [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
