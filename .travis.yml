@@ -7,4 +7,6 @@ php:
 install:
   - composer self-update
   - composer install
+before_script:
+  - phpenv config-add travis.ini
 script: php ./vendor/bin/codecept run unit --coverage
