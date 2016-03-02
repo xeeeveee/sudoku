@@ -9,4 +9,6 @@ install:
   - composer self-update
   - composer install
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'xdebug.enable = On' >> /etc/hhvm/php.ini; fi
+before_script:
+  - phpenv config-rm travis.ini
 script: php ./vendor/bin/codecept run unit --coverage
