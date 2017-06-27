@@ -466,11 +466,14 @@ class Puzzle
     /**
      * Sets a columns array linked to the puzzle by reference
      *
+     * Rebuilds the array from scratch to prevent unwanted cells lingering when shrinking the cell count
+     *
      * @param array $source
      * @param array $columns
      */
     protected function setColumns(array &$source, array &$columns)
     {
+        $columns = [];
         for($i = 0; $i < $this->getGridSize(); $i++)
         {
             for($j = 0; $j < $this->getGridSize(); $j++)
@@ -483,11 +486,14 @@ class Puzzle
     /**
      * Sets a boxes array linked to the puzzle by reference
      *
+     * Rebuilds the array from scratch to prevent unwanted cells lingering when shrinking the cell count
+     *
      * @param array $source
      * @param array $boxes
      */
     protected function setBoxes(array &$source, array &$boxes)
     {
+        $boxes = [];
         for($i = 0; $i < $this->getGridSize(); $i++)
         {
             for($j = 0; $j < $this->getGridSize(); $j++)
